@@ -35,8 +35,15 @@ const Layout = ({ children }) => {
         }}
       >
         <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
+        <footer style={{
+          position:`absolute`,
+          bottom:`0`,
+        }}>
+          © {new Date().getFullYear()}, Built by
+          {` `}
+          <a href="https://www.codycarton.com">Cody</a>
+          {` `}
+          with
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </footer>

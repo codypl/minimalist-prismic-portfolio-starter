@@ -1,21 +1,42 @@
 import React from "react"
-import { Link } from "gatsby"
 
 import Layout from "../components/layout"
+import Portfolio from "../components/portfolio"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
+import "../style/global.scss"
+
+const IndexPage = props => (
   <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <SEO title="Gastby Starter Theme" />
+    <Portfolio>
+      {props.data.portfolios.edges.map(portfolio => (
+        <Image slug={portfolio.node.slugs[0]} data={portfolio.node.data} />
+      ))}
+    </Portfolio>
   </Layout>
 )
 
 export default IndexPage
+
+export const IndexQuery = graphql`
+query Portfolio {
+  portfolios: allPrismicPortfolio {
+    edges {
+      node {
+        slugs
+        data {
+          title {
+            text
+          }
+          image {
+            url
+            alt
+          }
+        }
+      }
+    }
+  }
+}
+`

@@ -1,42 +1,44 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
+import { Link, StaticQuery, graphql } from 'gatsby'
+import PropTypes from "prop-types"
+import Logo from "../images/logo.png"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
+const Header = ({ data }) => (
+  <header>
+      <img id="logo" src={Logo} alt="Logo" />
+      <h1>
+        <Link id="title">
+          {data.site.siteMetadata.title}
         </Link>
       </h1>
-    </div>
+      <h2>
+          {data.site.siteMetadata.author}
+      </h2>
   </header>
 )
 
+export default props => (
+  <StaticQuery
+    query={graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+            author
+          }
+        }
+      }
+    `}
+    render={data => <Header data={data} {...props} />}
+  />
+)
 Header.propTypes = {
-  siteTitle: PropTypes.string,
+  data: PropTypes.shape({
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
 }
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
